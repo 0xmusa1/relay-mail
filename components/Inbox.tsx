@@ -48,7 +48,7 @@ export default function Inbox() {
                 </p>
 
                 <p className="font-mono text-sm text-blue-400">
-                  {shortAddress(mail.sender)}
+                  {shortAddress(mail.from)}
                 </p>
               </div>
 

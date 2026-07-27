@@ -48,7 +48,7 @@ export default function Sent() {
                 </p>
 
                 <p className="font-mono text-sm text-blue-400">
-                  {shortAddress(mail.receiver)}
+                  {shortAddress(mail.to)}
                 </p>
               </div>
 
