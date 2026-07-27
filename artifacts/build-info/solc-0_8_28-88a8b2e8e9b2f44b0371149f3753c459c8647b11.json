@@ -1,0 +1,42 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-88a8b2e8e9b2f44b0371149f3753c459c8647b11",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "compilerType": "solc",
+  "userSourceNameMap": {
+    "contracts/RelayMail.sol": "project/contracts/RelayMail.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode.linkReferences",
+            "evm.bytecode.object",
+            "evm.bytecode.opcodes",
+            "evm.bytecode.sourceMap",
+            "evm.deployedBytecode.immutableReferences",
+            "evm.deployedBytecode.linkReferences",
+            "evm.deployedBytecode.object",
+            "evm.deployedBytecode.opcodes",
+            "evm.deployedBytecode.sourceMap",
+            "evm.methodIdentifiers"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/RelayMail.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.28;\n\ncontract RelayMail {\n    struct Mail {\n        uint256 id;\n        address from;\n        address to;\n        string subject;\n        string message;\n        uint256 timestamp;\n    }\n\n    uint256 private nextMailId;\n\n    mapping(address => Mail[]) private inbox;\n    mapping(address => Mail[]) private sent;\n\n    event MailSent(\n        uint256 indexed id,\n        address indexed from,\n        address indexed to,\n        uint256 timestamp\n    );\n\n    function sendMail(\n        address to,\n        string calldata subject,\n        string calldata message\n    ) external {\n        require(to != address(0), \"Invalid recipient\");\n        require(bytes(message).length <= 280, \"Message too long\");\n\n        Mail memory mail = Mail({\n            id: nextMailId,\n            from: msg.sender,\n            to: to,\n            subject: subject,\n            message: message,\n            timestamp: block.timestamp\n        });\n\n        sent[msg.sender].push(mail);\n        inbox[to].push(mail);\n\n        emit MailSent(\n            nextMailId,\n            msg.sender,\n            to,\n            block.timestamp\n        );\n\n        nextMailId++;\n    }\n\n    function getInbox(address user)\n        external\n        view\n        returns (Mail[] memory)\n    {\n        return inbox[user];\n    }\n\n    function getSent(address user)\n        external\n        view\n        returns (Mail[] memory)\n    {\n        return sent[user];\n    }\n}"
+      }
+    }
+  }
+}
