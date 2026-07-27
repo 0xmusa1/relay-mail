@@ -38,7 +38,6 @@ export default function MailDialog({
     if (!isSuccess) return;
 
     toast.success("Reply sent");
-
     setReply("");
     onOpenChange(false);
   }, [isSuccess, onOpenChange]);
@@ -48,9 +47,10 @@ export default function MailDialog({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
+
         <Dialog.Overlay className="fixed inset-0 bg-black/70 backdrop-blur-sm" />
 
-        <Dialog.Content className="fixed left-1/2 top-1/2 w-[90vw] max-w-3xl -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-zinc-800 bg-zinc-950 p-8 outline-none">
+        <Dialog.Content className="fixed left-1/2 top-1/2 flex max-h-[90vh] w-[90vw] max-w-3xl -translate-x-1/2 -translate-y-1/2 flex-col rounded-2xl border border-zinc-800 bg-zinc-950 p-8 outline-none">
 
           <Dialog.Title className="text-3xl font-bold">
             {mail.subject}
@@ -79,11 +79,13 @@ export default function MailDialog({
 
           </div>
 
-          <div className="mt-8 whitespace-pre-wrap rounded-xl bg-zinc-900 p-6 leading-7">
-            {mail.message}
+          <div className="mt-8 max-h-[35vh] overflow-y-auto rounded-xl border border-zinc-800 bg-zinc-900 p-6">
+            <pre className="whitespace-pre-wrap break-words font-sans text-base leading-7 text-white">
+              {mail.message}
+            </pre>
           </div>
 
-          <div className="mt-8 border-t border-zinc-800 pt-6">
+          <div className="mt-auto border-t border-zinc-800 pt-6">
 
             <h3 className="mb-3 text-lg font-semibold">
               Reply
@@ -94,13 +96,13 @@ export default function MailDialog({
               value={reply}
               onChange={(e) => setReply(e.target.value)}
               placeholder="Write your reply..."
-              className="w-full rounded-lg bg-zinc-900 p-4"
+              className="w-full rounded-lg bg-zinc-900 p-4 outline-none focus:ring-2 focus:ring-blue-500"
             />
 
             <div className="mt-4 flex justify-end gap-3">
 
               <Dialog.Close asChild>
-                <button className="rounded-lg bg-zinc-800 px-5 py-3 hover:bg-zinc-700">
+                <button className="rounded-lg bg-zinc-800 px-5 py-3 transition hover:bg-zinc-700">
                   Close
                 </button>
               </Dialog.Close>
@@ -111,17 +113,14 @@ export default function MailDialog({
                   isConfirming ||
                   reply.trim() === ""
                 }
-                onClick={() => {
-  console.log("Reply clicked");
-  console.log(mail);
-
-  sendMail(
-  mail.from as `0x${string}`,
-  `Re: ${mail.subject}`,
-  reply
-);
-}}
-                className="rounded-lg bg-blue-600 px-6 py-3 hover:bg-blue-700 disabled:opacity-50"
+                onClick={() =>
+                  sendMail(
+                    mail.from as `0x${string}`,
+                    `Re: ${mail.subject}`,
+                    reply
+                  )
+                }
+                className="rounded-lg bg-blue-600 px-6 py-3 transition hover:bg-blue-700 disabled:opacity-50"
               >
                 {isPending
                   ? "Wallet..."
@@ -135,6 +134,7 @@ export default function MailDialog({
           </div>
 
         </Dialog.Content>
+
       </Dialog.Portal>
     </Dialog.Root>
   );
