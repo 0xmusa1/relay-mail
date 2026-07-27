@@ -1,3 +1,31 @@
+# Relay Mail
+
+A decentralized on-chain messaging application built on Arc Testnet.
+
+## Live Demo
+
+https://6a67ed7d8b30ff0008a3046c--soft-mandazi-f3df7a.netlify.app/
+
+## Features
+
+- Wallet Connect
+- Send On-chain Messages
+- Inbox
+- Sent Mail
+- Reply to Messages
+- Modern Responsive UI
+
+## Tech Stack
+
+- Next.js 16
+- React 19
+- TypeScript
+- Wagmi
+- Viem
+- Hardhat
+- Solidity
+- Tailwind CSS
+- Arc Testnet
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
